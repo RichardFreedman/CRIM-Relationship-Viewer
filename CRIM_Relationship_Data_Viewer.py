@@ -49,7 +49,7 @@ def get_data():
     return df 
 df = get_data()
 
-select_data = df[["id", "url", "relationship_type", "model_observation.piece.piece_id", "derivative_observation.piece.piece_id"]]
+select_data = df[["id", "relationship_type", "musical_type", "model_observation.piece.piece_id", "derivative_observation.piece.piece_id", "url"]]
 
 # Sidebar options for _all_ data of a particular type
 
@@ -59,82 +59,99 @@ if st.sidebar.checkbox('Show All Metadata Fields'):
     st.subheader('All CRIM Relationships with All Metadata')
     st.write(df)
 
-if st.sidebar.checkbox('Show Selected Metadata:  Observer, Piece, Type'):
-    st.subheader('Selected Metadata:  Observer, Piece, Type')
+if st.sidebar.checkbox('Show Selected Metadata:  ID, URL, Relationship Type, Musical Type, Model, Derivative'):
+    st.subheader('Selected Metadata:  ID, URL, Relationship Type, Musical Type, Model, Derivative')
     st.write(select_data)
 
-if st.sidebar.checkbox('Show Total Observations per Analyst'):
-    st.subheader('Total Observations per Analyst')
-    st.write(df['observer.name'].value_counts())  
+if st.sidebar.checkbox('Show Total Relationships per Type'):
+    st.subheader('Total Relationships per Type')
+    st.write(df['relationship_type'].value_counts())  
 
-if st.sidebar.checkbox('Show Total Observations per Piece Title'):
-    st.subheader('Total Observations per Analyst')
-    st.write(df['piece.full_title'].value_counts()) 
+if st.sidebar.checkbox('Show Total Relationships per Musical Type'):
+    st.subheader('Total Total Relationships per Musical Type')
+    st.write(df['musical_type'].value_counts()) 
 
-if st.sidebar.checkbox('Show Total Observations per Piece ID'):
-    st.subheader('Total Observations per Piece ID')
-    st.write(df['piece.piece_id'].value_counts()) 
+if st.sidebar.checkbox('Show Total Relationships per Model'):
+    st.subheader('Total Relationships per Model')
+    st.write(df['model_observation.piece.piece_id'].value_counts()) 
 
-if st.sidebar.checkbox('Show Total Observations per Musical Type'):
-    st.subheader('Total Observations per Musical Type')
-    st.write(df['musical_type'].value_counts())    
-
+if st.sidebar.checkbox('Show Total Relationships per Derivative'):
+    st.subheader('Total Relationships per Derivative')
+    st.write(df['derivative_observation.piece.piece_id'].value_counts()) 
 
 # These are the filters in the main window 
-st.write('Use the following dialogues to filter for one or more Analyst, Observation, or Musical Type')
+st.write('Use the following dialogues to filter for one or more Relationship Type, Musical Type, Model, or Derivative')
 st.write('To download a CSV file with the given results, provide a filename as requested, then click the download button')
 
-st.header("Select Observations by Analyst")
-obs_list = select_data['observer.name'].unique()
-obs_selected = st.multiselect('', obs_list)
+st.header("Select Relationships by Type")
+rel_list = select_data['relationship_type'].unique()
+rel_selected = st.multiselect('', rel_list)
 
 # # Mask to filter dataframe:  returns only those "selected" in previous step
-masked_obs = select_data['observer.name'].isin(obs_selected)
+masked_rel = select_data['relationship_type'].isin(rel_selected)
 
-select_data_1 = select_data[masked_obs]
+select_data_1 = select_data[masked_rel]
 st.write(select_data_1)
 
-s1 = st.text_input('Name of Observer file for download (must include ".csv")')
+s1 = st.text_input('Provide Relationship filename for download (must include ".csv")')
 ## Button to download CSV of results 
-if st.button('Download Observer Results as CSV'):
+if st.button('Download Relationship Type Results as CSV'):
     #s = st.text_input('Enter text here')
     tmp_download_link = download_link(select_data_1, s1, 'Click here to download your data!')
     st.markdown(tmp_download_link, unsafe_allow_html=True)
 
 st.markdown("---")
 # # Mask to filter dataframe:  returns only those "selected" in previous step
-st.header("Select Observations by Piece")
-piece_list = select_data['piece.piece_id'].unique()
-pieces_selected = st.multiselect('', piece_list)
+st.header("Select Relationships by Musical Type")
+mt_list = select_data['musical_type'].unique()
+mts_selected = st.multiselect('', mt_list)
 
 # # Mask to filter dataframe:  returns only those "selected" in previous step
-masked_pieces = select_data['piece.piece_id'].isin(pieces_selected)
+masked_mts = select_data['musical_type'].isin(mts_selected)
 
-select_data_2 = select_data[masked_pieces]
+select_data_2 = select_data[masked_mts]
 st.write(select_data_2)
 
 ## Button to download CSV of results 
-s2 = st.text_input('Name of Piece file for download (must include ".csv")')
-if st.button('Download Piece Results as CSV'):
+s2 = st.text_input('Provide Musical Type filename for download (must include ".csv")')
+if st.button('Download Musical Type Results as CSV'):
     tmp_download_link = download_link(select_data_2, s2, 'Click here to download your data!')
     st.markdown(tmp_download_link, unsafe_allow_html=True)
 
 st.markdown("---")
-st.header("Select Observations by Musical Type")
-type_list = select_data['musical_type'].unique()
-types_selected = st.multiselect('', type_list)
+st.header("Select Relationships by Model ID")
+model_list = select_data['model_observation.piece.piece_id'].unique()
+models_selected = st.multiselect('', model_list)
 
 # # Mask to filter dataframe:  returns only those "selected" in previous step
-masked_types = select_data['musical_type'].isin(types_selected )
+masked_models = select_data['model_observation.piece.piece_id'].isin(models_selected )
 
-select_data_3 = select_data[masked_types]
+select_data_3 = select_data[masked_models]
 st.write(select_data_3)
 
 ## Button to download CSV of results 
-s3 = st.text_input('Name of Musical Type file for download (must include ".csv")')
-if st.button('Download Musical Type Results as CSV'):
+s3 = st.text_input('Name of Model ID file for download (must include ".csv")')
+if st.button('Download Model ID Results as CSV'):
     tmp_download_link = download_link(select_data_3, s3, 'Click here to download your data!')
     st.markdown(tmp_download_link, unsafe_allow_html=True)
+
+st.markdown("---")
+st.header("Select Relationships by Derivative ID")
+derivative_list = select_data['derivative_observation.piece.piece_id'].unique()
+derivatives_selected = st.multiselect('', derivative_list)
+
+# # Mask to filter dataframe:  returns only those "selected" in previous step
+masked_derivatives = select_data['model_observation.piece.piece_id'].isin(derivatives_selected )
+
+select_data_4 = select_data[masked_derivatives]
+st.write(select_data_4)
+
+## Button to download CSV of results 
+s4 = st.text_input('Name of Derivative ID file for download (must include ".csv")')
+if st.button('Download Derivative ID Results as CSV'):
+    tmp_download_link = download_link(select_data_4, s4, 'Click here to download your data!')
+    st.markdown(tmp_download_link, unsafe_allow_html=True)
+
 
 
 
