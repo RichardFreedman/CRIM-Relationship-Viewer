@@ -37,6 +37,7 @@ st.header("CRIM Project Relationship Meta Data Viewer")
 
 st.subheader("These tools assemble metadata for about 2500 Relationships in Citations: The Renaissance Imitation Mass")
 st.write("Visit the [CRIM Project](https://crimproject.org) and its [Members Pages] (https://sites.google.com/haverford.edu/crim-project/home)")
+st.write("Also see the [Observation Metadata Viewer] (https://crim-observation-data-viewer.herokuapp.com/")
 # st.cache speeds things up by holding data in cache
 
 @st.cache(allow_output_mutation=True)
