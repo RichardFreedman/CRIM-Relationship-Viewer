@@ -49,7 +49,7 @@ def get_data():
     return df 
 df = get_data()
 
-select_data = df[["id", "url", "model_observation.piece.piece_id", "derivative_observation.piece.piece_id", "relationship_type"]]
+select_data = df[["id", "url", "relationship_type", "model_observation.piece.piece_id", "derivative_observation.piece.piece_id"]]
 
 # Sidebar options for _all_ data of a particular type
 
