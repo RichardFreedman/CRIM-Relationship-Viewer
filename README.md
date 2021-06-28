@@ -1,4 +1,4 @@
-# CRIM Observation Data Viewer
+# CRIM Relationship Data Viewer
 
 StreamLit App for Visualizing  Metadata for Citations:  The Renaissance Imitation Mass (http://crimproject.org/)
 
@@ -20,10 +20,10 @@ Use options at left to see:
 - Total per Observer
 - Total per Piece
 - Total per Piece_ID
-- Total per Musical Type
+- Total per Relationship Type
 Use Main Window to:
-- Select Observations by One or More Analysts
-- Select Observations for One or More Pieces
-- Select Observations for One or More Musical Types
+- Select Relationships by One or More Analysts
+- Select Relationships for One or More Pieces
+- Select Relationships for One or More Musical Types
 
 
